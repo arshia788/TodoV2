@@ -1,25 +1,29 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { getSession, signIn, useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router';
 
 function SignUpPage() {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const {data,status}= useSession();
-    const router= useRouter()
+    const { status } = useSession();
+    const router = useRouter();
 
-    useEffect(()=>{
-        // if(status === 'authenticated') router.replace('/')
-    },[status])
+    useEffect(() => {
 
-    async function signInHandler() {
-        const res = await signIn("credentials", {
+        if (status === 'authenticated') window.location.href('/')
+
+    }, [status])
+
+    const signInHandler = async () => {
+        const res = await signIn('credentials', {
             email, password, redirect: false
-        })
+        });
         console.log(res);
+        if (!res.error) router.push('/')
+
     }
 
     return (
@@ -41,11 +45,11 @@ function SignUpPage() {
                     className='bg-gray-400 w-fit px-2 py-1 rounded mt-4 mx-auto'
                 >SignIn</button>
 
-                <p
-                    className='text-center mt-4'
-                >Don't Have An Account? <Link
-                    className='text-blue-700'
-                    href='/signup'>SignUp</Link></p>
+                <div className='flex items-center mt-4'>
+                    <p className='mr-1'>Create An Account </p>
+                    <Link href="/signup" className='text-blue-600'>sign up</Link>
+                </div>
+
 
 
             </div>
@@ -55,10 +59,3 @@ function SignUpPage() {
 }
 
 export default SignUpPage;
-
-
-export async function getServerSideProps({req}){
-
-    const session= await getSession({req})
-    console.log(session);
-}
