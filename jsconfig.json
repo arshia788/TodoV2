@@ -1,0 +1,14 @@
+
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/models/*":["models/*"],
+            "@/utils/*":["utils/*"],
+            "@/pages/api/auth/*":["pages/api/auth/*"],
+            "@/components/templates/*":["components/templates/*"]
+        }
+    }
+}
+
+
